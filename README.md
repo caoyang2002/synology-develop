@@ -161,9 +161,66 @@ sudo ./PkgCreate.py -v 7.2 -p r1000 -c ../source/ExamplePackage
 
 
 
+# spksrc 开发
 
 
 
+## 环境
+
+### docker
+
+```bash
+cd spksrc # Go to the cloned repository's root folder.
+
+# If running on Linux:
+docker run -it --platform=linux/amd64 -v $(pwd):/spksrc -w /spksrc ghcr.io/synocommunity/spksrc /bin/bash
+
+# If running on macOS:
+docker run -it --platform=linux/amd64 -v $(pwd):/spksrc -w /spksrc -e TAR_CMD="fakeroot tar" ghcr.io/synocommunity/spksrc /bin/bash
+```
+
+
+
+### 主机
+
+```bash
+git clone https://github.com/SynoCommunity/spksrc.git
+# 可能需要安装的依赖
+sudo apt-get update
+sudo apt-get install ninja-build
+sudo apt-get install imagemagick
+sudo apt-get install moreutils
+```
+
+
+
+### 虚拟机
+
+```bash
+sudo dpkg --add-architecture i386 && sudo apt-get update
+sudo apt update
+sudo apt install autoconf-archive autogen automake autopoint bash bc bison build-essential check cmake curl cython3 debootstrap ed expect fakeroot flex g++-multilib gawk gettext git gperf imagemagick intltool jq libbz2-dev libc6-i386 libcppunit-dev libffi-dev libgc-dev libgmp3-dev libltdl-dev libmount-dev libncurses-dev libpcre3-dev libssl-dev libtool libunistring-dev lzip mercurial moreutils ninja-build patchelf php pkg-config python2 python3 python3-distutils rename ruby-mustache rsync scons subversion swig texinfo unzip xmlto zip zlib1g-dev
+wget https://bootstrap.pypa.io/pip/2.7/get-pip.py -O - | sudo python2
+sudo pip2 install wheel httpie
+wget https://bootstrap.pypa.io/get-pip.py -O - | sudo python3
+sudo pip3 install meson==1.0.0
+```
+
+
+
+## 以 7.2 为例
+
+```bash
+git clone https://github.com/SynoCommunity/spksrc.git
+cd spksrc/
+make setup
+cd spk/transmission
+make arch-r1000-7.2
+
+# or 
+git clone https://github.com/SynoCommunity/spksrc.git
+make -C spksrc spk-transmission-r1000-7.2
+```
 
 
 
