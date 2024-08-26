@@ -2,23 +2,48 @@ https://help.synology.cn/developer-guide
 
 # 环境
 
-OS: Ubuntu-20
+**开发设备:** 
 
-群晖
+```bash
+$ hostnamectl
+ Static hostname: simons-yannis
+       Icon name: computer-desktop
+         Chassis: desktop 🖥️
+      Machine ID: d2ca6f513c924e379fdeafea1ba5f99e
+         Boot ID: 98db35ffa2bc4c4b9fbe573d930494f9
+Operating System: Ubuntu 24.04 LTS                
+          Kernel: Linux 6.8.0-39-generic
+    Architecture: x86-64
+ Hardware Vendor: ASUS
+  Hardware Model: ROG STRIX B660-A GAMING WIFI D4
+Firmware Version: 1620
+   Firmware Date: Fri 2022-08-12
+    Firmware Age: 2y 2w          
+```
+
+
+
+**部署环境：**
 
 | 型号      | CPU 型号         | 核心数 （单一 CPU） | 线程数 （单一 CPU） | FPU  | 套件架构 | RAM                 |
 | :-------- | :--------------- | :------------------ | :------------------ | :--- | :------- | :------------------ |
 | DS923+    | AMD Ryzen R1600  | 2                   | 4                   | ✓    | R1000    | DDR4 ECC SODIMM 4GB |
 
-https://github.com/SynologyOpenSource/pkgscripts-ng
+**文件：**
 
-https://github.com/SynologyOpenSource/ExamplePackages
+Package script: https://github.com/SynologyOpenSource/pkgscripts-ng
+
+Example Package:  https://github.com/SynologyOpenSource/ExamplePackages
+
+Archive: https://archive.synology.com/download/
 
 
 
-# 以7.2 环境为例
+# 案例
 
+> 在 DS923+ 设备上安装一个自己编译的 ExamplePackage 程序
 
+## 创建目录
 
 ```bash
 # 创建并进入目录
@@ -26,14 +51,14 @@ mkdir -p toolkit
 cd toolkit
 ```
 
-
+## 下载 toolkit framework
 
 ```bash
-# 克隆包
+# 克隆工具包
 git clone https://github.com/SynologyOpenSource/pkgscripts-ng.git
 ```
 
-
+## 安装依赖项
 
 ```bash
 # 安装
@@ -44,8 +69,10 @@ apt-get install cifs-utils \
     python3-pip
 ```
 
+## 目录结构
+
 ```bash
-caoyang@simons-yannis:~/synology/toolkit/pkgscripts-ng$ tree -h -L 1 
+$ tree -h -L 1 
 [4.0K]  .
 ├── [2.8K]  EnvDeploy
 ├── [5.4K]  ParallelProjects.py
@@ -63,7 +90,9 @@ caoyang@simons-yannis:~/synology/toolkit/pkgscripts-ng$ tree -h -L 1
 
 
 
+## 下载群晖编译环境
 
+### 下载指定环境（建议）
 
 ```bash
 # 下载指定环境
@@ -71,7 +100,7 @@ sudo ./EnvDeploy -v 7.2 -p r1000
 # 避免 tar: dev/sdbz14: Cannot mknod: Operation not permitted
 ```
 
-
+### 下载所有环境（可选）
 
 ```bash
 # 下载所有环境
@@ -83,7 +112,7 @@ caoyang@simons-yannis:~/synology/toolkit/pkgscripts-ng$ ./EnvDeploy -v 7.2 --lis
 
 
 
-
+## 文件结构
 
 ```bash
 # 查看文件夹结构
@@ -98,7 +127,7 @@ caoyang@simons-yannis:~/synology/toolkit$ tree -h -L 1
 
 
 
-
+## 下载程序文件
 
 ```bash
 mkdir source
@@ -112,7 +141,7 @@ mv ExamplePackages/ExamplePackage/ ./
 
 
 
-打包
+## 打包
 
 ```bash
 sudo ./PkgCreate.py -v 7.2 -p r1000 -c ../source/ExamplePackage
@@ -120,7 +149,9 @@ sudo ./PkgCreate.py -v 7.2 -p r1000 -c ../source/ExamplePackage
 # /home/caoyang/synology/toolkit/result_spk/ExamplePackage-1.0.0-0001/ExamplePackage-x86_64-1.0.0-0001.spk
 ```
 
-将这个包导出给 群晖套件
+## 安装到群晖
+
+`套件中心` > `手动安装`
 
 
 
@@ -145,6 +176,16 @@ sudo ./PkgCreate.py -v 7.2 -p r1000 -c ../source/ExamplePackage
 
 
 
+
+
+
+
+
+---
+
+---
+
+---
 
 
 
@@ -820,5 +861,4 @@ destination:      /image/packages/ExamplePackage-x86_64-1.0.0-0001.spk
 caoyang@simons-yannis:~/synology/toolkit/pkgscripts-ng$ 
 
 ```
-
 
