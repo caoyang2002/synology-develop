@@ -203,7 +203,7 @@ sudo apt install autoconf-archive autogen automake autopoint bash bc bison build
 wget https://bootstrap.pypa.io/pip/2.7/get-pip.py -O - | sudo python2
 sudo pip2 install wheel httpie
 wget https://bootstrap.pypa.io/get-pip.py -O - | sudo python3
-sudo pip3 install meson==1.0.0
+sudo pip3 install meson==1.s0.0
 ```
 
 
